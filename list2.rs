@@ -1,4 +1,3 @@
-//use core::fmt::Display;
 use std::fmt;
 use List::{Cons, Nil};
 
@@ -7,7 +6,7 @@ enum List<T> {
   Nil
 }
 
-impl<T> fmt::Display for List<T> where T : fmt::Display {//TがDisplay traitを実装していることを保証したい
+impl<T> fmt::Display for List<T> where T : fmt::Display {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
     match *self {
       Cons(ref head, ref tail) => 
