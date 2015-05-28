@@ -28,6 +28,10 @@ fn flat_map<T, U>(list: &List<T>, f: &Fn(T) -> List<U>) -> List<U> where T: Copy
   }
 }
 
+fn filter<T>(list: &List<T>, f: &Fn(T) -> bool) -> List<T> where T : Copy {
+  fold_right(list, Nil, &|x, y| if f(x) { Cons(x, Arc::new(filter(&y, f))) } else { filter(&y, f) })
+}
+
 fn concat<T>(list: &List<T>, b: List<T>) -> List<T> where T: Copy, T: Sized {
   fold_right(list, b, &|x, y| Cons(x, Arc::new(y)))
 }
@@ -65,5 +69,5 @@ fn new_list<T>(args: Vec<T>) -> List<T> where T: Copy {
  
 fn main() {
   let list = new_list(vec![1, 2, 3, 4, 5]);
-  println!("{list}", list = flat_map(&list, &|x| new_list(vec![x, x])));
+  println!("{list}", list = filter(&list, &|x| x < 4));
 }
